@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import BarraTitulo from './components/BarraTitulo'
+import moment from 'moment'
+import Grafica from './components/Grafica'
+import Tabla from './components/Tabla'
+import Form from './components/Form'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+moment.locale('es-mx')
+
+class App extends Component {
+
+  state = {
+    registros: [],
+  }
+
+  onCrearRegistro = () =>{
+    const nuevoRegistro = [+moment(), Math.random()*200]
+    this.setState({
+      registros: [...this.state.registros, nuevoRegistro]
+    })
+  }
+
+  render() {
+    const btnadd = {
+      top: "90%",
+      right: "2.5%",
+      position: "absolute"
+    }
+
+    return (
+      <div>
+        <BarraTitulo />
+        <Form />
+        <main>
+          <div className="valign-wrapper">
+            <h2>Registro de peso</h2>
+          </div>
+          <div className="row">
+            <div className='col s12 l6 m12'>
+              <Grafica registros={this.state.registros} />
+            </div>
+            <div className='col s12 l6 m12'>
+              <Tabla registros={this.state.registros} />
+            </div>
+          </div>
+          <a className="btn-floating btn-large waves-effect waves-light red" 
+          style={btnadd}
+          onClick={this.onCrearRegistro}
+          >
+            <i className="material-icons">add</i>
+          </a>
+        </main>
+      </div>
+    );
+  }
 }
 
 export default App;
