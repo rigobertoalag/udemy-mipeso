@@ -4,6 +4,7 @@ import moment from 'moment'
 import Grafica from './components/Grafica'
 import Tabla from './components/Tabla'
 import Form from './components/Form'
+import Footer from './components/Footer'
 
 moment.locale('es-mx')
 
@@ -76,6 +77,7 @@ class App extends Component {
           </a>
           <a className="btn" onClick={this.reiniciarValores}>Reiniciar datos</a>
         </main>
+        <Footer />
       </div>
     );
   }
