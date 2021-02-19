@@ -11,12 +11,20 @@ class App extends Component {
 
   state = {
     registros: [],
+    modal: false
   }
 
-  onCrearRegistro = () =>{
-    const nuevoRegistro = [+moment(), Math.random()*200]
+  onAceptarRegistro = ({ fecha, peso }) => {
+    const nuevoRegistro = [+fecha, +peso]
+    console.log(nuevoRegistro)
+    this.setState((prevState, props) => ({
+      registros: [...prevState.registros, nuevoRegistro]
+    }))
+  }
+
+  onCerrarForm = () => {
     this.setState({
-      registros: [...this.state.registros, nuevoRegistro]
+      modal: false
     })
   }
 
@@ -30,7 +38,7 @@ class App extends Component {
     return (
       <div>
         <BarraTitulo />
-        <Form />
+        <Form visible={this.state.modal} onAceptar={this.onAceptarRegistro} onCerrar={this.onCerrarForm} />
         <main>
           <div className="valign-wrapper">
             <h2>Registro de peso</h2>
@@ -43,11 +51,10 @@ class App extends Component {
               <Tabla registros={this.state.registros} />
             </div>
           </div>
-          <a className="btn-floating btn-large waves-effect waves-light red" 
-          style={btnadd}
-          onClick={this.onCrearRegistro}
+          <a className="btn-floating btn-large waves-effect waves-light red"
+            style={btnadd}
           >
-            <i className="material-icons">add</i>
+            <i className="material-icons" onClick={() => this.setState({ modal: true })}>add</i>
           </a>
         </main>
       </div>

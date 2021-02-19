@@ -8,19 +8,19 @@ import moment from 'moment'
 export default class Form extends React.Component {
     state = {
         fecha: (new Date()),
-        peso: null
+        peso: ""
     }
 
     onSubmit = () => {
         const { fecha, peso } = this.state
-        console.log(fecha, peso)
 
         if (!peso || peso < 0) {
             swal('Valor erroneo', 'El peso ingresado es invalido', 'error')
         }
-
         if (!fecha) {
             swal('Valor erroneo', 'Ingresa una fecha', 'error')
+        } else {
+            this.props.onAceptar(this.state)
         }
     }
 
@@ -34,7 +34,7 @@ export default class Form extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="form-container col s4 offset-s4 z-depth-4 cyan lighten-3">
+                <div className={`form-container scale-transition ${this.props.visible ? "scale-in" : "scale-out"} col s4 offset-s4 z-depth-4 cyan lighten-3`}>
                     <form onSubmit={this.onSubmit}>
                         <label htmlFor="fecha">
                             Fecha:
@@ -47,8 +47,8 @@ export default class Form extends React.Component {
                             Peso:
                             <input type="text" name="peso" value={this.state.peso} onChange={this.onCambioPeso} id="peso" />
                         </label>
-                        <input type="button" onClick={this.onSubmit} value="Agregar" />
-                        <input type="button" value="Cerrar" />
+                        <input type="button" className="btn" onClick={this.onSubmit} value="Agregar" />
+                        <input type="button" className="btn" onClick={() => this.props.onCerrar()} value="Cerrar" />
                     </form>
                 </div>
             </div>
