@@ -14,17 +14,35 @@ class App extends Component {
     modal: false
   }
 
+  componentDidMount(){
+    if(localStorage.getItem('registros')){
+      const registros = JSON.parse(localStorage.getItem('registros'))
+      this.setState({
+        registros
+      })
+    }
+  }
+
   onAceptarRegistro = ({ fecha, peso }) => {
     const nuevoRegistro = [+fecha, +peso]
-    console.log(nuevoRegistro)
-    this.setState((prevState, props) => ({
-      registros: [...prevState.registros, nuevoRegistro]
-    }))
+    //console.log(nuevoRegistro)
+    const newStateRegistros = [...this.state.registros, nuevoRegistro]
+    localStorage.setItem('registros',JSON.stringify(newStateRegistros))
+    this.setState({
+      registros: newStateRegistros
+    })
   }
 
   onCerrarForm = () => {
     this.setState({
       modal: false
+    })
+  }
+
+  reiniciarValores = () =>{
+    localStorage.clear()
+    this.setState({
+      registros:[]
     })
   }
 
@@ -56,6 +74,7 @@ class App extends Component {
           >
             <i className="material-icons" onClick={() => this.setState({ modal: true })}>add</i>
           </a>
+          <a className="btn" onClick={this.reiniciarValores}>Reiniciar datos</a>
         </main>
       </div>
     );

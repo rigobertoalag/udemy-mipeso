@@ -14,7 +14,7 @@ export default class Form extends React.Component {
     onSubmit = () => {
         const { fecha, peso } = this.state
 
-        if (!peso || peso < 0) {
+        if (!peso || peso < 0 || isNaN(peso)) {
             swal('Valor erroneo', 'El peso ingresado es invalido', 'error')
         }
         if (!fecha) {
@@ -45,7 +45,7 @@ export default class Form extends React.Component {
                         </label>
                         <label htmlFor="peso">
                             Peso:
-                            <input type="text" name="peso" value={this.state.peso} onChange={this.onCambioPeso} id="peso" />
+                            <input type="number" name="peso" value={this.state.peso} onChange={this.onCambioPeso} id="peso" />
                         </label>
                         <input type="button" className="btn" onClick={this.onSubmit} value="Agregar" />
                         <input type="button" className="btn" onClick={() => this.props.onCerrar()} value="Cerrar" />
